@@ -1,3 +1,5 @@
+// 算法：先指数查找，再二分查找
+
 class Solution {
 public:
     int binarySearch(int lo, int hi, vector<int>& nums, int& target) {
