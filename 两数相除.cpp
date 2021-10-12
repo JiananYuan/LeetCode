@@ -15,6 +15,9 @@ public:
     
     int divide(int dividend, int divisor) {
         // special judge
+        if (dividend == -2147483648) {
+            return 0x7fffffff;
+        }
         if (abs(dividend) < abs(divisor)) {
             return 0;
         }
@@ -27,9 +30,10 @@ public:
             divisor = -divisor;
         }
         bool is_ans_positive = (is_minus_dividend && is_minus_divisor) || (!is_minus_dividend && !is_minus_divisor);
-        int i = 1, j = dividend;
+        long i = 1, j = dividend;
         while (i <= j) {
             int mid = (i + j) >> 1;
+            // int mid = (i >> 1) + (j >> 1);
             int ans = qm(mid, divisor);
             if (ans == dividend) {
                 // return mid;
