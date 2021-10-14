@@ -1,22 +1,22 @@
 class Solution {
 public:
     // quick multiply: a * b
-    bool qm(int a, int b, int target) {
+    bool qm(int divisor, int mul, int target) {
         int ans = 0;
-        while (b) {
-            if (b & 1) {
-                if (ans < target - a) {
+        while (mul != 0) {
+            if (mul & 1) {
+                if (ans < target - divisor) {
                     return true;
                 }
-                ans += a;
+                ans += divisor;
             }
-            if (b != 1) {
-                if (a < target - a) {
+            if (mul != 1) {
+                if (divisor < target - divisor) {
                     return true;
                 }
-                a += a;
+                divisor += divisor;
             }
-            b >>= 1;
+            mul >>= 1;
         }
         return false;
     }
