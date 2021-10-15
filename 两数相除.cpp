@@ -46,6 +46,7 @@ public:
         bool is_ans_positive = (is_minus_dividend && is_minus_divisor) || (!is_minus_dividend && !is_minus_divisor);
         int i = 1, j = INT_MAX, ans = 0;
         while (i <= j) {
+            // note: 避免溢出的一个处理方式!!
             int mid = i + ((j - i) >> 1);
             bool overflow = qm(divisor, mid, dividend);
             if (!overflow) {
