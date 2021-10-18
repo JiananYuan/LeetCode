@@ -7,14 +7,11 @@ func findComplement(num int) int {
 		arr[i] = bit
 		i += 1
 	}
-	j := i - 1
-	k := 1
 	// reverse array
-	for ; k < j; j, k = j - 1, k + 1 {
+	for j, k := i - 1, 1; k < j; j, k = j - 1, k + 1 {
 		arr[k], arr[j] = arr[j], arr[k]
 	}
-	j = 1
-	for ; j < i; j += 1 {
+	for j := 1; j < i; j += 1 {
 		if arr[j] == 1 {
 			arr[j] = 0
 		} else {
@@ -22,8 +19,7 @@ func findComplement(num int) int {
 		}
 	}
 	ans := 0
-	j = 1
-	for ; j < i; j += 1 {
+	for j := 1; j < i; j += 1 {
 		ans = ans *2 + arr[j]
 	}
 	return ans
