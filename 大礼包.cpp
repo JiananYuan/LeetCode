@@ -17,18 +17,17 @@ public:
         }
         int special_len = int(special.size());
         for (int i = 0; i < special_len; i += 1) {
-            vector<int> next(needs);
+            vector<int> next = needs;
             bool isOverflow = false;
-            int special_item_len = int(special[i].size());
-            for (int j = 0; j < special_item_len; j += 1) {
-                if (next[i] < special[i][j]) {
+            for (int j = 0; j < needs_len; j += 1) {
+                if (next[j] < special[i][j]) {
                     isOverflow = true;
                     break;
                 }
             }
             if (!isOverflow) {
                 for (int j = 0; j < needs_len; j += 1) {
-                    next[i] -= special[i][j];
+                    next[j] -= special[i][j];
                 }
                 ans = min(ans, dfs(price, special, next) + special[i].back());
             }
