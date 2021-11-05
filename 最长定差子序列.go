@@ -13,7 +13,7 @@ func longestSubsequence(arr []int, difference int) int {
 			if arr[j] - lastNum	== difference {
 				tmpLength += 1
 				mark[ arr[j] ] = true
-                lastNum	= arr[j]
+                		lastNum	= arr[j]
 			}
 		}
 		maxLength = max(maxLength, tmpLength)
