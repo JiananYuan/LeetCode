@@ -1,48 +1,107 @@
+package main
+
+import "fmt"
+
 func search(nums []int, target int) int {
-    left := 0
-    right := len(nums) - 1
-    for left < right {
-        mid := (left + right) / 2
-        if nums[mid] < nums[right] {
-            right = mid - 1
-        } else if nums[mid] >= nums[left] {
-            left = mid + 1
-        }
-    }
-    split := left
-    // fmt.Println(split)
-    // fmt.Println(nums[split])
-    if split == 0 {
-        return binarySearch(nums, 0, len(nums) - 1, target)
-    }
-    if target < nums[0] {
-        return binarySearch(nums, split, len(nums) - 1, target)
-    } else {
-        // fmt.Print("here")
-        return binarySearch(nums, 0, max(0, split - 1), target)
-    }
+	left := 0
+	right := len(nums) - 1
+	for left < right {
+		// special judge
+		// 可以理解为提前退出
+		if left > 0 && nums[left - 1] > nums[left] {
+			break
+		}
+		mid := (left + right) >> 1
+		if nums[mid] < nums[left] {
+			right = mid - 1
+		} else if nums[mid] >= nums[left] {
+			left = mid + 1
+		}
+	}
+	// split 指向分位点之后的第一个数
+	split := left
+	// special judge
+	if split == len(nums) - 1 {
+		split = len(nums)
+	}
+	if target < nums[0] {
+		// 最小搜索范围不能比总长度大
+		return binarySearch(nums, min(split, len(nums) - 1), len(nums) - 1, target)
+	} else {
+		// 最小的搜索范围不能和比0小
+		return binarySearch(nums, 0, max(split - 1, 0), target)
+	}
 }
 
 func binarySearch(nums []int, left int, right int, target int) int {
-    // fmt.Println(left)
-    // fmt.Println(right)
-    for left <= right {
-        mid := (left + right) / 2
-        if nums[mid] == target {
-            return mid
-        } else if nums[mid] > target {
-            return binarySearch(nums, left, mid - 1, target)
-        } else if nums[mid] < target {
-            return binarySearch(nums, mid + 1, right, target)
-        }
-    }
-    return -1
+	for left <= right {
+		mid := (left + right) >> 1
+		if nums[mid] == target {
+			return mid
+		} else if nums[mid] > target {
+			return binarySearch(nums, left, mid - 1, target)
+		} else if nums[mid] < target {
+			return binarySearch(nums, mid + 1, right, target)
+		}
+	}
+	return -1
 }
 
 func max(a int, b int) int {
-    if a < b {
-        return b
-    } else {
-        return a
-    }
+	if a < b {
+		return b
+	} else {
+		return a
+	}
+}
+
+func min(a int, b int) int {
+	if a < b {
+		return a
+	} else {
+		return b
+	}
+}
+
+func main() {
+	arr := []int{6,7,1,2,3,4,5}
+	target := 5
+	fmt.Println(search(arr, target))
+
+	arr = []int{4,5,6,7,1,2,3}
+	target = 1
+	fmt.Println(search(arr, target))
+
+	// special case
+	arr = []int{1,3}
+	target = 3
+	fmt.Println(search(arr, target))
+
+	arr = []int{8,1,2,3,4,5,6,7}
+	target = 5
+	fmt.Println(search(arr, target))
+
+	// special case
+	arr = []int{1}
+	target = 1
+	fmt.Println(search(arr, target))
+
+	arr = []int{3,1,2}
+	target = 1
+	fmt.Println(search(arr, target))
+
+	target = 2
+	fmt.Println(search(arr, target))
+
+	target = 3
+	fmt.Println(search(arr, target))
+
+	arr = []int{3,1}
+	target = 1
+	fmt.Println(search(arr, target))
+
+	arr = []int{4,5,6,7,8,1,2,3}
+	target = 8
+	fmt.Println(search(arr, target))
+
 }
