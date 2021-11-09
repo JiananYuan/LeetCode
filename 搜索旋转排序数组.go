@@ -1,7 +1,3 @@
-package main
-
-import "fmt"
-
 func search(nums []int, target int) int {
 	left := 0
 	right := len(nums) - 1
@@ -21,6 +17,9 @@ func search(nums []int, target int) int {
 	// split 指向分位点之后的第一个数
 	split := left
 	// special judge
+	if split < len(nums) - 1 && nums[split + 1] < nums[split] {
+		split += 1
+	}
 	if split == len(nums) - 1 {
 		split = len(nums)
 	}
@@ -61,47 +60,4 @@ func min(a int, b int) int {
 	} else {
 		return b
 	}
-}
-
-func main() {
-	arr := []int{6,7,1,2,3,4,5}
-	target := 5
-	fmt.Println(search(arr, target))
-
-	arr = []int{4,5,6,7,1,2,3}
-	target = 1
-	fmt.Println(search(arr, target))
-
-	// special case
-	arr = []int{1,3}
-	target = 3
-	fmt.Println(search(arr, target))
-
-	arr = []int{8,1,2,3,4,5,6,7}
-	target = 5
-	fmt.Println(search(arr, target))
-
-	// special case
-	arr = []int{1}
-	target = 1
-	fmt.Println(search(arr, target))
-
-	arr = []int{3,1,2}
-	target = 1
-	fmt.Println(search(arr, target))
-
-	target = 2
-	fmt.Println(search(arr, target))
-
-	target = 3
-	fmt.Println(search(arr, target))
-
-	arr = []int{3,1}
-	target = 1
-	fmt.Println(search(arr, target))
-
-	arr = []int{4,5,6,7,8,1,2,3}
-	target = 8
-	fmt.Println(search(arr, target))
-
 }
