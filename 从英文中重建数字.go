@@ -1,13 +1,6 @@
-package main
-
-import (
-	"fmt"
-	"strconv"
-	"strings"
-)
-
 func originalDigits(s string) string {
-	numArr := []string{ "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }
+	numArr := []string{ "zero", "two", "six", "seven", "four", "five", "one", "three", "eight", "nine" }
+	numRealArr := []int{ 0, 2, 6, 7, 4, 5, 1, 3, 8, 9 }
 	countArr := make([]int, 26)
 	sLen := len(s)
 	// 统计字符出现的个数
@@ -40,11 +33,12 @@ func originalDigits(s string) string {
 		for {
 			if check(i) {
 				// 自然有序
-				ansNum = append(ansNum, strconv.Itoa(i))
+				ansNum = append(ansNum, strconv.Itoa(numRealArr[i]))
 			} else {
 				break
 			}
 		}
 	}
+	sort.Strings(ansNum)
 	return strings.Join(ansNum, "")
 }
