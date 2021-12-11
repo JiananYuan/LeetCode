@@ -47,6 +47,9 @@ public:
                 i = mid + 1;
             }
         }
+        if (times[mid] != t && mid > 0 && times[mid] > t && times[mid - 1] <= t) {
+            mid -= 1;
+        }
         int floor_time = times[mid];
         return time_to_winner[floor_time];
     }
