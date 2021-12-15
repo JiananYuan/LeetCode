@@ -18,6 +18,14 @@ public:
         return a.richer_rank < b.richer_rank;
     }
 
+    void increase_rank(vector<node>& richer_rank, int id) {
+        int len = int(ranks[id]);
+        for (int i = 0; i < len; i += 1) {
+            richer_rank[ ranks[id][i] ] += 1;
+            increase_rank(ranks[id][i]);
+        }
+    }
+
     vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
         ranks.clear();
         int richer_len = int(richer.size());
@@ -26,14 +34,17 @@ public:
         vector<node> richer_rank;
         for (int i = 0; i < quiet_len; i += 1) {
             richer_rank.emplace_back(node(i, 0, quiet[i]));
+            ranks.emplace_back(vector<int>());
         }
         // 拉链法求名次
         for (int i = 0; i < richer_len; i += 1) {
             ranks[ richer[i][0] ].push_back(richer[i][1]);
         }
+
         // to be continued...
         for (int i = 0; i < richer_len; i += 1) {
             richer_rank[ richer[i][1] ].richer_rank += 1;
+            increase_rank(richer_rank, richer[i][1]);
         }
         sort(richer_rank.begin(), richer_rank.end(), cmp);
         vector<int> ans;
