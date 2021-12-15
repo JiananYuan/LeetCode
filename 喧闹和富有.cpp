@@ -1,63 +1,52 @@
-struct node {
-    int id;
-    int richer_rank;
-    int quiet;
-    node(int _id = 0, int _richer_rank = 0, int _quiet = 0) {
-        id = _id;
-        richer_rank = _richer_rank;
-        quiet = _quiet;
-    }
-};
-
 class Solution {
 public:
+    /*
+        ranks[0] = [...]  // 0比后面一串人贫穷
+    */
+    vector<set<int> > ranks;
 
-    vector<vector<int> > ranks(520);
-
-    static bool cmp(node& a, node& b) {
-        return a.richer_rank < b.richer_rank;
-    }
-
-    void increase_rank(vector<node>& richer_rank, int id) {
-        int len = int(ranks[id]);
+    // father = 1, child = 2
+    void auto_add(int father, int child) {
+        // 两方面考虑
+        int len = int(ranks.size());
         for (int i = 0; i < len; i += 1) {
-            richer_rank[ ranks[id][i] ] += 1;
-            increase_rank(ranks[id][i]);
+            if (ranks[i].count(father) != 0) {
+                ranks[i].insert(child);
+            }
+        }
+        for (auto it = ranks[child].begin(); it != ranks[child].end(); it++) {
+            if (ranks[father].count(*it) == 0) {
+                ranks[father].insert(*it);
+                auto_add(father, *it);
+            }
         }
     }
 
     vector<int> loudAndRich(vector<vector<int>>& richer, vector<int>& quiet) {
         ranks.clear();
-        int richer_len = int(richer.size());
-        int quiet_len = int(quiet.size());
-        // 初始化富豪榜
-        vector<node> richer_rank;
-        for (int i = 0; i < quiet_len; i += 1) {
-            richer_rank.emplace_back(node(i, 0, quiet[i]));
-            ranks.emplace_back(vector<int>());
+        int len_richer = int(richer.size());
+        int len_quiet = int(quiet.size());
+        for (int i = 0; i < len_quiet; i += 1) {
+            ranks.emplace_back(set<int>());
         }
-        // 拉链法求名次
-        for (int i = 0; i < richer_len; i += 1) {
-            ranks[ richer[i][0] ].push_back(richer[i][1]);
+        for (int i = 0; i < len_richer; i += 1) {
+            if (ranks[ richer[i][1] ].count(richer[i][0]) == 0) {
+                ranks[ richer[i][1] ].insert(richer[i][0]);
+                auto_add(richer[i][1], richer[i][0]);
+            }
         }
-
-        // to be continued...
-        for (int i = 0; i < richer_len; i += 1) {
-            richer_rank[ richer[i][1] ].richer_rank += 1;
-            increase_rank(richer_rank, richer[i][1]);
-        }
-        sort(richer_rank.begin(), richer_rank.end(), cmp);
         vector<int> ans;
-        for (int i = 0; i < quiet_len; i += 1) {
-            int most_quiet = 1000;
-            int most_quiet_id = i;
-            for (int j = i - 1; j >= 0; j -= 1) {
-                if (most_quiet > richer_rank[j].quiet) {
-                    most_quiet = richer_rank[j].quiet;
-                    most_quiet_id = richer_rank[j].id;
+        for (int i = 0; i < len_quiet; i += 1) {
+            set<int> s = ranks[i];
+            int quiet_val = quiet[i];
+            int quiet_id = i;
+            for (auto it = s.begin(); it != s.end(); it++) {
+                if (quiet[*it] < quiet_val) {
+                    quiet_val = quiet[*it];
+                    quiet_id = *it;
                 }
             }
-            ans.push_back(most_quiet_id);
+            ans.push_back(quiet_id);
         }
         return ans;
     }
