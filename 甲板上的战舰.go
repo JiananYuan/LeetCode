@@ -5,7 +5,10 @@ func countBattleships(board [][]byte) int {
     checkInBoard = func(x int, y int) bool {
         return x >= 0 && x < rows && y >= 0 && y < cols
     }
-    mark := make([][]bool, rows, cols)
+    mark := make([][]bool, rows)
+    for i := 0; i < rows; i += 1 {
+        mark[i] = make([]bool, cols)
+    }
     count := 0
     for i := 0; i < rows; i += 1 {
         for j := 0; j < cols; j += 1 {
@@ -13,11 +16,11 @@ func countBattleships(board [][]byte) int {
                 count += 1
                 mark[i][j] = true
                 if checkInBoard(i + 1, j) && board[i + 1][j] == 'X' {
-                    for k := i + 1; k < rows; k += 1 {
+                    for k := i + 1; k < rows && board[k][j] == 'X'; k += 1 {
                         mark[k][j] = true
                     }
                 } else if checkInBoard(i, j + 1) && board[i][j + 1] == 'X' {
-                    for k := j + 1; k < cols; k += 1 {
+                    for k := j + 1; k < cols && board[i][k] == 'X'; k += 1 {
                         mark[i][k] = true
                     }
                 }
