@@ -1,33 +1,35 @@
 class Solution {
 public:
+    
     int kIncreasing(vector<int>& arr, int k) {
-        int arr_len = int(arr.size());
+        int len = int(arr.size());
         int ans = 0;
         for (int i = 0; i < k; i += 1) {
             vector<int> vec;
-            for (int j = i; j < arr_len; j += k) {
+            for (int j = i; j < len; j += k) {
                 vec.push_back(arr[j]);
             }
-            ans += int(vec.size()) - maxIncrease(vec);
-        }
+            ans += int(vec.size()) - maxLongestIncreaseSegment(vec);
+        }    
         return ans;
     }
 
-    int maxIncrease(vector<int>& vec) {
-        int len = 1, n = int(vec.size());
-        int* d = new int[n + 1];
-        d[len] = vec[0];
-        for (int i = 1; i < n; i += 1) {
-            if (vec[i] >= d[len]) {
-                d[++len] = vec[i];
+    int maxLongestIncreaseSegment(vector<int>& arr) {
+        int len = int(arr.size());
+        int* dp = new int[len + 1];
+        dp[1] = arr[0];
+        int rightMost = 1;
+        for (int i = 1; i < len; i += 1) {
+            if (arr[i] >= dp[rightMost]) {
+                dp[++rightMost] = arr[i];
             }
-            // vec[i] < d[len]
             else {
-                int pos = upper_bound(d, d + len, vec[i]) - d;
-                d[pos] = vec[i];
+                int pos = upper_bound(dp + 1, dp + 1 + rightMost, arr[i]) - dp;
+                dp[pos] = arr[i];
             }
         }
-        delete[] d;
-        return len;
+        delete[] dp;
+        return rightMost;
     }
+
 };
