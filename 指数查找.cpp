@@ -1,28 +1,35 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
-int main() {
-    // int a[] = {0, 3, 4, 10, 100, 233, 500, 1000, 1001, 1001, 1002};
-    int a[] = { 0, 1 };
-    int x, n = sizeof(a) / sizeof(int);
-    for (int i = 0; i < n; i += 1) {
-        cout << a[i] << " ";
+const int N = 1000;
+int datas[N + 1];
+
+void generate() {
+    srand((unsigned)time(nullptr));
+    for (int i = 1; i <= N; i += 1) {
+        datas[i] = rand() % N;
     }
-    cout << endl;
-    while (cin >> x) {
-        int i = 0, base = 0;
+    sort(datas + 1, datas + 1 + N);
+}
+
+int main() {
+    generate();
+    time_t st = clock();
+    for (int j = 1; j <= (N >> 1); j += 1) {
+        int i = 0, base = 0, x = rand() % N;
         while (true) {
             int index = base + (1 << i);
-            if (index >= n) {
+            if (index >= N) {
                 base = base + (1 << (i - 1));
                 i = 0;
                 index = base + (1 << i);
             }
-            if (base >= n || index >= n) {
+            if (base >= N || index >= N) {
                 cout << "not found" << endl;
                 break;
             }
-            int num = a[index];
+            int num = datas[index];
             if (x == num) {
                 cout << "locate at " << index << endl;
                 break;
@@ -40,5 +47,7 @@ int main() {
             }
         }
     }
+    time_t en = clock();
+    cout << "time: " << (en - st) / 1000.0 << "s\n";
     return 0;
 }
