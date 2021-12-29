@@ -13,19 +13,19 @@ public:
             for (int j = 0; j < n; j += 1) {
                 if (grid[i][j] == '1') {
                     // 上
-                    if (i - 1 >= 0) {
-                        union_acs(father, ranks, i * n + j, (i - 1) * n + j);
-                    }
+                    // if (i - 1 >= 0) {
+                    //     union_acs(father, ranks, i * n + j, (i - 1) * n + j);
+                    // }
                     // 下
-                    if (i + 1 < m) {
+                    if (i + 1 < m && grid[i + 1][j] == '1') {
                         union_acs(father, ranks, i * n + j, (i + 1) * n + j);
                     }
                     // 左
-                    if (j - 1 >= 0) {
-                        union_acs(father, ranks, i * n + j, i * n + j - 1);
-                    }
+                    // if (j - 1 >= 0) {
+                    //     union_acs(father, ranks, i * n + j, i * n + j - 1);
+                    // }
                     // 右
-                    if (j + 1 < n) {
+                    if (j + 1 < n && grid[i][j + 1] == '1') {
                         union_acs(father, ranks, i * n + j, i * n + j + 1);
                     }
                 }
@@ -52,24 +52,23 @@ public:
     }
 
     // 按秩合并
-    void union_acs(vector<int>& father, vector<int>& ranks, int x, int y) {
+    inline void union_acs(vector<int>& father, vector<int>& ranks, int x, int y) {
         int acs_x = find_acs(father, x);
         int acs_y = find_acs(father, y);
         if (acs_x != acs_y) {
-            // int large, small;
-            // if (ranks[acs_x] < ranks[acs_y]) {
-            //     large = acs_y;
-            //     small = acs_x;
-            // }
-            // else {
-            //     large = acs_x;
-            //     small = acs_y;
-            // }
-            // father[small] = large;
-            // if (ranks[small] == ranks[large]) {
-            //     ranks[large] += 1;
-            // }
-            father[acs_x] = acs_y;
+            int large, small;
+            if (ranks[acs_x] < ranks[acs_y]) {
+                large = acs_y;
+                small = acs_x;
+            }
+            else {
+                large = acs_x;
+                small = acs_y;
+            }
+            father[small] = large;
+            if (ranks[small] == ranks[large]) {
+                ranks[large] += 1;
+            }
         }
     }
 
