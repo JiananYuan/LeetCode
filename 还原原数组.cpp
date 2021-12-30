@@ -9,8 +9,8 @@ public:
             }
             int k = (nums[i] - nums[0]) >> 1;
             vector<bool> used(sz, false);
-            used[0] = used[i] = true;
-            int left = 0, right = i + 1;
+            int left = 0, right = i;
+            used[left] = used[right] = true;
             vector<int> ans;
             ans.push_back(nums[0] + k);
             for (int j = 1; j < sz / 2; j += 1) {
