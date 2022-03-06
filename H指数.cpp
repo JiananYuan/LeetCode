@@ -10,3 +10,4 @@ public:
         return h_index;
     }
 };
+
