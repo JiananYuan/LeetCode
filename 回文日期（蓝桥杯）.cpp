@@ -69,3 +69,4 @@ int main() {
     cout << ans_1 << endl << ans_2 << endl;
     return 0;
 }
+
