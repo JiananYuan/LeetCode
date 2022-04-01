@@ -12,3 +12,4 @@ func findPoisonedDuration(timeSeries []int, duration int) int {
     ans += duration
     return ans
 }
+
