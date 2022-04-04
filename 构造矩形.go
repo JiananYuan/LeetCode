@@ -10,3 +10,4 @@ func constructRectangle(area int) []int {
     }
     return arr
 }
+
