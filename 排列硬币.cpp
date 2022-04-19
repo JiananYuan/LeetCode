@@ -5,3 +5,4 @@ public:
         return int((-1 + sqrt(1 + 8 * nn)) / 2);
     }
 };
+
