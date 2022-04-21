@@ -14,3 +14,4 @@ public:
         return (len == upper_cnt) || is_all_lower || (upper_cnt == 1 && isupper(word[0]));
     }
 };
+
