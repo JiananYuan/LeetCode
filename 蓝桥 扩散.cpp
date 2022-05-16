@@ -27,15 +27,16 @@ struct node {
 int main() {
     // color_map[0][0] = color_map[2020][11] = color_map[11][14] = color_map[2000][2000] = true;
     queue<node> q;
-    q.push(node(0, 0, 0));
-    q.push(node(2020, 11, 0));
-    q.push(node(11, 14, 0));
-    q.push(node(2000, 2000, 0));
+    const int SHIFT = 2500;
+    q.push(node(0 + SHIFT, 0 + SHIFT, 0));
+    q.push(node(2020 + SHIFT, 11 + SHIFT, 0));
+    q.push(node(11 + SHIFT, 14 + SHIFT, 0));
+    q.push(node(2000 + SHIFT, 2000 + SHIFT, 0));
     int ans = 0;
     while (!q.empty()) {
         node nd = q.front();
         q.pop();
-        if (nd.step == 2) {
+        if (nd.step == 2021) {
             break;
         }
         color_map[nd.x][nd.y] = true;
@@ -43,7 +44,7 @@ int main() {
         for (int i = 0; i < 4; i += 1) {
             int tx = nd.x + dir[i][0];
             int ty = nd.y + dir[i][1];
-            if (tx >= 0 && ty >= 0 && color_map[tx][ty] == false) {
+            if (color_map[tx][ty] == false) {
                 color_map[tx][ty] = true;
                 q.push(node(tx, ty, nd.step + 1));
             }
